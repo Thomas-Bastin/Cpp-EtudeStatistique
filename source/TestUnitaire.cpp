@@ -142,7 +142,6 @@ void Test1D(){
         cout << "return: false" << endl<<endl;   
 
 
-
     //>
     cout << "\033[0;31m" << "Test Oppérateurs >:" << "\033[0m" << endl;
 
@@ -174,7 +173,30 @@ void Test1D(){
     if(test > test2)
         cout << "return: true" << endl<<endl;
     else
-        cout << "return: false" << endl<<endl;   
+        cout << "return: false" << endl<<endl;  
+
+
+
+    //Test Liste Data1D:
+    cout << "\033[0;31m" << "Test Liste Data1D:" << "\033[0m" << endl;
+    Liste<Data1D> listeData1D;
+
+    listeData1D.insere(Data1D());
+    listeData1D.insere(Data1D(test));
+    listeData1D.insere(Data1D(test2));
+    listeData1D.insere(Data1D(20.9284,12));
+    listeData1D.insere(Data1D(20.8620,1));
+    listeData1D.insere(Data1D(0.9284,4));
+    listeData1D.insere(Data1D(12.0012,5));
+    
+    std::cout << "Liste: " << endl;
+    Iterateur<Data1D> iter(listeData1D);
+    int i;
+
+    for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+    	Data1D tmp = (Data1D)iter;
+        std::cout << "[" << i << "] = " << tmp << "" << endl;
+    }
 }
 
 
@@ -294,7 +316,6 @@ void Test2D(){
         cout << "return: false" << endl<<endl;   
 
 
-
     //>
     cout << "\033[0;31m" << "Test Oppérateurs >:" << "\033[0m" << endl;
     
@@ -327,4 +348,26 @@ void Test2D(){
         cout << "return: true" << endl<<endl;
     else
         cout << "return: false" << endl<<endl;
+
+
+    //Test Liste Data2D:
+    cout << "\033[0;31m" << "Test Liste Data1D:" << "\033[0m" << endl;
+    Liste<Data2D> listeData2D;
+
+    listeData2D.insere(Data2D());
+    listeData2D.insere(Data2D(test));
+    listeData2D.insere(Data2D(test2));
+    listeData2D.insere(Data2D(20.9284,12));
+    listeData2D.insere(Data2D(20.8620,1));
+    listeData2D.insere(Data2D(0.9284,4));
+    listeData2D.insere(Data2D(12.0012,5));
+    
+    std::cout << "Liste: " << endl;
+    Iterateur<Data2D> iter(listeData2D);
+    int i;
+
+    for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+    	Data2D tmp = (Data2D)iter;
+        std::cout << "[" << i << "] = " << tmp << "" << endl;
+    }
 }
