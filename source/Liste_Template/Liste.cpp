@@ -242,5 +242,8 @@
     	return *this;
     }
 
-
+	#include "../Data/data1D.h"
+	#include "../Data/data2D.h"
 	template class Liste<int>;
+	template class Liste<Data1D>;
+	template class Liste<Data2D>;

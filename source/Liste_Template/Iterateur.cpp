@@ -52,6 +52,10 @@
 
 	
 	//Création des Templates.
-	
+	#include "../Data/data1D.h"
+	#include "../Data/data2D.h"
+
 	template class Iterateur<int>;
+	template class Iterateur<Data1D>;
+	template class Iterateur<Data2D>;
 	

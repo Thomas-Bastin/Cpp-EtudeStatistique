@@ -5,7 +5,7 @@ bin = obj
 Lib = source
 LibListeTemplate = $(Lib)/Liste_Template
 
-allobj = $(bin)/Liste.o $(bin)/ListeTriee.o $(bin)/Iterateur.o
+allobj = $(bin)/Liste.o $(bin)/ListeTriee.o $(bin)/Iterateur.o $(bin)/data1D.o $(bin)/data2D.o
 
 
 
@@ -13,11 +13,19 @@ allobj = $(bin)/Liste.o $(bin)/ListeTriee.o $(bin)/Iterateur.o
 
 ALL: $(PROGRAMS).app
 
-$(PROGRAMS).app:	$(Lib)/main.cpp $(allobj)
+$(PROGRAMS).app:	$(Lib)/main.cpp $(allobj) $(Lib)/TestUnitaire.cpp $(Lib)/main.h
 					echo Creation de $(PROGRAMS)
-					g++ $(Lib)/main.cpp $(allobj) -o $(PROGRAMS).app
+					g++ $(Lib)/main.cpp $(Lib)/TestUnitaire.cpp $(allobj) -o $(PROGRAMS).app
 
 
+#Creation LibData
+$(bin)/data1D.o: $(Lib)/Data/data1D.cpp $(Lib)/Data/data1D.h
+			echo Création data1D.o
+			g++ $(Lib)/Data/data1D.cpp -c -o $(bin)/data1D.o
+
+$(bin)/data2D.o: $(Lib)/Data/data2D.cpp $(Lib)/Data/data2D.h
+			echo Création data2D.o
+			g++ $(Lib)/Data/data2D.cpp -c -o $(bin)/data2D.o
 
 #Creation Template Liste
 $(bin)/Liste.o:	$(LibListeTemplate)/Liste.cpp $(LibListeTemplate)/Liste.h 
@@ -41,5 +49,5 @@ clear: clean
 
 clean:
 	echo "Supression *.o ..."
-#	rm obj/threadVaisseauAmiral.o
-	rm SpaceInvaders.app
+	rm obj/*
+	rm EtudeStat.app

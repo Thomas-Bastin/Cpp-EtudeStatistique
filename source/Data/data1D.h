@@ -9,6 +9,7 @@ class Data1D {
 	private:
 		float 	Val;
 		int 	Eff;
+		
 	public:
 		
 		//Constructeur Default
@@ -49,7 +50,7 @@ class Data1D {
      	friend std::ostream& operator<<(std::ostream& s, const Data1D& t1);
 
      	//Flux Gestion Fichier:
-        void Save(ofstream& fichier) const;    //Save Objet in Fichier
-        void Load(ifstream& fichier);          //Load Objet from Fichier
+        //void Save(ofstream& fichier) const;    //Save Objet in Fichier
+        //void Load(ifstream& fichier);          //Load Objet from Fichier
 };
 #endif
