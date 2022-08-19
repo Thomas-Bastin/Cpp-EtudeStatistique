@@ -83,6 +83,8 @@ int menuAutre(void){
 	cout << "| 1. Test Liste                                                         |" << endl;
 	cout << "| 2. Test data1D                                                        |" << endl;
 	cout << "| 3. Test data2D                                                        |" << endl;
+	cout << "| 4. Test DataSource                                                    |" << endl;
+	cout << "| 5. Test Echantillon                                                   |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "| 0. Quitter                                                            |" << endl;
@@ -110,6 +112,20 @@ int menuAutre(void){
 				system("clear");
 				returnCode = 3;
 				Test2D();
+				EnterIsPressed();
+			break;
+
+		case '4':
+				system("clear");
+				returnCode = 4;
+				TestDataSource();
+				EnterIsPressed();
+			break;
+
+		case '5':
+				system("clear");
+				returnCode = 5;
+				TestEchantillon();
 				EnterIsPressed();
 			break;
 

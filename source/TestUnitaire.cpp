@@ -2,7 +2,6 @@
 using namespace std;
 
 
-
 void TestList(){
 	Liste<int> test;
 
@@ -24,8 +23,6 @@ void TestList(){
         std::cout << "[" << i << "] = " << tmp << "" << endl;
     }
 }
-
-
 
 
 
@@ -368,6 +365,203 @@ void Test2D(){
 
     for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
     	Data2D tmp = (Data2D)iter;
+        std::cout << "[" << i << "] = " << tmp << "" << endl;
+    }
+}
+
+void TestDataSource(){
+    //// Constructors Tests: ////
+    //Default Constructor 
+    cout << "\033[0;31m" << "Test constructeur par Défaut:" << "\033[0m" << endl; 
+    DataSource test = DataSource();
+    cout << test << endl << endl;
+
+    //InitConstructor
+    cout << "\033[0;31m" << "Test constructeur initialisation:" << "\033[0m" << endl;
+    DataSource test2 = DataSource("Nom", "Sujet", 3);
+    cout << test2 << endl << endl;
+
+    //Copy Constructor
+    cout << "\033[0;31m" << "Test constructeur Copie:" << "\033[0m" << endl;
+    cout << "Test1 = DataSource(Test2)"<<endl;
+    test = DataSource(test2);
+    cout << "Test1= " << test << " " << endl;
+    cout << "Test2= " << test2 << " " << endl<<endl;
+
+    cout << "Test1.Sujet = Sujet1" << endl;
+    test.setSujet("Sujet1");
+
+    cout << "Test1= " << test << " " << endl;
+    cout << "Test2= " << test2 << " " << endl;
+    cout << endl << endl;
+
+
+    //// Getters/Setters Tests: //// 
+    cout << "\033[0;31m" << "Test des Getters et Setters:" << "\033[0m" << endl;
+    test = DataSource();
+    cout << "Test1= " << test << endl;
+    cout << "Test1.setSujet(Sujet2); \tTest1.setNom(Nom1);" << endl << endl; 
+    test.setSujet("Sujet2");
+    test.setNom("Nom1");
+    cout << "Test1= " << "( Sujet = " << test.getSujet() << ", val = " << test.getNom()<< " )" << endl << endl;
+    
+
+    //// Opperator Overloading Tests: //// 
+    //=
+    cout << "\033[0;31m" << "Test Oppérateurs Affectation:" << "\033[0m" << endl;
+    test.setNom("Nom1");
+    test2.setNom("Nom2");
+    cout << "Test1 = " << test << "\t Test2 = " << test2 << endl<<endl;
+
+    cout << "Test1 = Test2" << endl;
+    test = test2;
+    cout << "Test1 = " << test << "\t Test2 = " << test2 << endl<<endl;
+
+    cout << "Test1.setNom(2)\t Test1.setSujet(2)" << endl;
+    test.setNom("Nom3"); test.setSujet("Sujet5");
+    cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+
+
+    //==
+    cout << "\033[0;31m" << "Test Oppérateurs ==:" << "\033[0m" << endl;
+    test = DataSource();
+    test2 = DataSource();
+    cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+    cout << "Test1 == Test2\t";
+
+    if(test == test2)
+        cout << "return: true" << endl<<endl;
+    else
+        cout << "return: false" << endl<<endl;
+
+    test.setNom("1");
+    test2.setNom("0");
+    cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+    cout << "Test1 == Test2\t";
+
+    if(test == test2)
+        cout << "return: true" << endl<<endl;
+    else
+        cout << "return: false" << endl<<endl;
+
+    //Test Liste DataSource:
+    cout << "\033[0;31m" << "Test Liste Data1D:" << "\033[0m" << endl;
+    Liste<DataSource> listeDataSource;
+
+    listeDataSource.insere(DataSource());
+    listeDataSource.insere(DataSource(test));
+    listeDataSource.insere(DataSource(test2));
+    listeDataSource.insere(DataSource("Nom 10", "Sujet 1", 1));
+    listeDataSource.insere(DataSource("Nom 11", "Sujet 2", 100));
+    listeDataSource.insere(DataSource("Nom 12", "Sujet 3", 5));
+    listeDataSource.insere(DataSource("Nom 13", "Sujet 4", 10));
+    
+    std::cout << "Liste: " << endl;
+    Iterateur<DataSource> iter(listeDataSource);
+    int i;
+
+    for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+    	DataSource tmp = (DataSource)iter;
+        std::cout << "[" << i << "] = " << tmp << "" << endl;
+    }
+}
+
+
+void TestEchantillon(){
+    //// Constructors Tests: ////
+    //Default Constructor 
+    cout << "\033[0;31m" << "Test constructeur par Défaut:" << "\033[0m" << endl; 
+    Echantillon test = Echantillon();
+    cout << test << endl << endl;
+
+    //InitConstructor
+    cout << "\033[0;31m" << "Test constructeur initialisation:" << "\033[0m" << endl;
+    Echantillon test2 = Echantillon(new DataSource("Nom","Sujet",10));
+    cout << test2 << endl << endl;
+
+    //Copy Constructor
+    cout << "\033[0;31m" << "Test constructeur Copie:" << "\033[0m" << endl;
+    cout << "Test1 = Echantillon(Test2)"<<endl;
+    test = Echantillon(test2);
+    cout << "Test1= " << test << " " << endl;
+    cout << "Test2= " << test2 << " " << endl<<endl;
+
+    cout << "Test1.Sujet = Sujet1" << endl;
+
+    test.setSource(new DataSource("Nom","Sujet",10));
+
+    cout << "Test1= " << test << " " << endl;
+    cout << "Test2= " << test2 << " " << endl;
+    cout << endl << endl;
+
+
+    //// Getters/Setters Tests: //// 
+    // cout << "\033[0;31m" << "Test des Getters et Setters:" << "\033[0m" << endl;
+    // test = Echantillon();
+    // cout << "Test1= " << test << endl;
+    // cout << "Test1.setSujet(Sujet2); \tTest1.setNom(Nom1);" << endl << endl; 
+    // test.setSujet("Sujet2");
+    // test.setNom("Nom1");
+    // cout << "Test1= " << "( Sujet = " << test.getSujet() << ", val = " << test.getNom()<< " )" << endl << endl;
+    
+
+    //// Opperator Overloading Tests: //// 
+    //=
+    // cout << "\033[0;31m" << "Test Oppérateurs Affectation:" << "\033[0m" << endl;
+    // test.setNom("Nom1");
+    // test2.setNom("Nom2");
+    // cout << "Test1 = " << test << "\t Test2 = " << test2 << endl<<endl;
+
+    // cout << "Test1 = Test2" << endl;
+    // test = test2;
+    // cout << "Test1 = " << test << "\t Test2 = " << test2 << endl<<endl;
+
+    // cout << "Test1.setNom(2)\t Test1.setSujet(2)" << endl;
+    // test.setNom("Nom3"); test.setSujet("Sujet5");
+    // cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+
+
+    //==
+    // cout << "\033[0;31m" << "Test Oppérateurs ==:" << "\033[0m" << endl;
+    // test = Echantillon();
+    // test2 = Echantillon();
+    // cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+    // cout << "Test1 == Test2\t";
+
+    // if(test == test2)
+    //     cout << "return: true" << endl<<endl;
+    // else
+    //     cout << "return: false" << endl<<endl;
+
+    // test.setNom("1");
+    // test2.setNom("0");
+    // cout << "Test1 = " << test << "\t Test2 = " << test2 << endl;
+    // cout << "Test1 == Test2\t";
+
+    // if(test == test2)
+    //     cout << "return: true" << endl<<endl;
+    // else
+    //     cout << "return: false" << endl<<endl;
+
+
+    //Test Liste Echantillon:
+    cout << "\033[0;31m" << "Test Liste Data1D:" << "\033[0m" << endl;
+    Liste<Echantillon> listeEchantillon;
+
+    listeEchantillon.insere( Echantillon());
+    listeEchantillon.insere( Echantillon( test));
+    listeEchantillon.insere( Echantillon( test2));
+    listeEchantillon.insere( Echantillon( new DataSource("Nom 10", "Sujet 1", 1   )));
+    listeEchantillon.insere( Echantillon( new DataSource("Nom 11", "Sujet 2", 100 )));
+    listeEchantillon.insere( Echantillon( new DataSource("Nom 12", "Sujet 3", 5   )));
+    listeEchantillon.insere( Echantillon( new DataSource("Nom 13", "Sujet 4", 10  )));
+    
+    std::cout << "Liste: " << endl;
+    Iterateur<Echantillon> iter(listeEchantillon);
+    int i;
+
+    for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+    	Echantillon tmp = (Echantillon)iter;
         std::cout << "[" << i << "] = " << tmp << "" << endl;
     }
 }

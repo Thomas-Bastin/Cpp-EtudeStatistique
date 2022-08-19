@@ -23,11 +23,6 @@ class Data2D {
 		//Deconstructeur	
 		~Data2D();
 		
-		//Methode Special
-		const char* Txt();
-		
-		const char* Tuple();
-		
 		
 		//GETTER SETTER
 		float getValeur() const;

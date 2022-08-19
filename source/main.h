@@ -5,6 +5,8 @@
     #include "Liste_Template/ListeTriee.h"
     #include "Data/data1D.h"
     #include "Data/data2D.h"
+    #include "DataSource/dataSource.h"
+    #include "Echantillon/echantillon.h"
 
     #include <iostream>
     #include <stdlib.h>
@@ -16,5 +18,7 @@
     void EnterIsPressed();
     void Test1D();
     void Test2D();
+    void TestDataSource();
+    void TestEchantillon();
 
 #endif

@@ -247,3 +247,9 @@
 	template class Liste<int>;
 	template class Liste<Data1D>;
 	template class Liste<Data2D>;
+
+	#include "../DataSource/dataSource.h"
+	template class Liste<DataSource>;
+
+	#include "../Echantillon/echantillon.h"
+	template class Liste<Echantillon>;

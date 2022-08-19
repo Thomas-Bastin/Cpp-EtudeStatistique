@@ -24,12 +24,6 @@ class Data1D {
 		//Deconstructeur	
 		~Data1D();
 		
-		//Methode Special
-		const char* Txt();
-		
-		const char* Tuple();
-		
-		
 		//GETTER SETTER
 		float getValeur() const;
 		void setValeur(const float valeur);
