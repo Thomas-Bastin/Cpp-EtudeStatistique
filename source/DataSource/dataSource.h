@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+
 using namespace std;
 
 class DataSource {
-	private:
+	protected:
         string Nom;
         string Sujet;
 

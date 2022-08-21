@@ -5,7 +5,7 @@ bin = obj
 Lib = source
 LibListeTemplate = $(Lib)/Liste_Template
 
-allobj = $(bin)/Liste.o $(bin)/ListeTriee.o $(bin)/Iterateur.o $(bin)/data1D.o $(bin)/data2D.o $(bin)/dataSource.o $(bin)/echantillon.o
+allobj = $(bin)/Liste.o $(bin)/ListeTriee.o $(bin)/Iterateur.o $(bin)/data1D.o $(bin)/data2D.o $(bin)/dataSource.o $(bin)/echantillon.o $(bin)/dataSourceSerieDiscrete.o
 
 
 
@@ -16,6 +16,11 @@ ALL: $(PROGRAMS).app
 $(PROGRAMS).app:	$(Lib)/main.cpp $(allobj) $(Lib)/TestUnitaire.cpp $(Lib)/main.h
 					echo Creation de $(PROGRAMS)
 					g++ $(Lib)/main.cpp $(Lib)/TestUnitaire.cpp $(allobj) -o $(PROGRAMS).app
+
+#Creation LibDataSourceSerieDiscrete
+$(bin)/dataSourceSerieDiscrete.o: $(Lib)/DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.cpp $(Lib)/DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.h
+			echo Création dataSourceSerieDiscrete.o
+			g++ $(Lib)/DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.cpp -c -o $(bin)/dataSourceSerieDiscrete.o
 
 #Creation LibDataSource
 $(bin)/dataSource.o: $(Lib)/DataSource/dataSource.cpp $(Lib)/DataSource/dataSource.h

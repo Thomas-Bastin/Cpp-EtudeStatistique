@@ -65,4 +65,8 @@
 
 	#include "../Echantillon/echantillon.h"
 	template class Iterateur<Echantillon>;
+
+	#include "../DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.h"
+	template class Iterateur<DataSourceSerieDiscrete>;
+	
 	

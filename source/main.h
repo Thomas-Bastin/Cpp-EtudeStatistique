@@ -7,6 +7,7 @@
     #include "Data/data2D.h"
     #include "DataSource/dataSource.h"
     #include "Echantillon/echantillon.h"
+    #include "DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.h"
 
     #include <iostream>
     #include <stdlib.h>
@@ -20,5 +21,6 @@
     void Test2D();
     void TestDataSource();
     void TestEchantillon();
+    void TestDataSourceSerieDiscrete();
 
 #endif

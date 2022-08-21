@@ -253,3 +253,6 @@
 
 	#include "../Echantillon/echantillon.h"
 	template class Liste<Echantillon>;
+
+	#include "../DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.h"
+	template class Liste<DataSourceSerieDiscrete>;
