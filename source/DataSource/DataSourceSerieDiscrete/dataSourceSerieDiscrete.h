@@ -49,5 +49,8 @@ class DataSourceSerieDiscrete : public DataSource {
         void refreshEffectifTotal();
 		void AfficheData();
 		float getMedianne() const;
+		float getMax() const;
+		float getMin() const;
+		float getMoyenne() const;
 };
 #endif

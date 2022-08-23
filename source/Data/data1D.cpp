@@ -4,14 +4,25 @@
 	Data1D::Data1D(){
 		Val = -1;
 		Eff = -1;
+
+		#ifdef DEBUG
+			cout << "data1D: Passage Constructeurs par défaut" << endl;
+		#endif		
 	}
 
 	Data1D::Data1D(const float valeur, const int effectif){
+		#ifdef DEBUG
+			cout << "data1D: Passage Constructeurs Init" << endl;
+		#endif	
+
 		setValeur(valeur);
 		setEffectif(effectif);
 	}
 
 	Data1D::Data1D(const Data1D &e){ //Constructeur de copie
+		#ifdef DEBUG
+		cout << "data1D: Passage Constructeurs par Copie" << endl;
+		#endif	
 		setValeur(e.getValeur());
 	  	setEffectif(e.getEffectif());
     }

@@ -6,6 +6,10 @@
 	}
 
 	Echantillon::Echantillon(string filePath, int col){
+		#ifdef DEBUG
+		cout << "Echantillon: Passage Constructeurs par Init filePath" << endl;
+		#endif	
+
 		int ColNumber = col;   // Indique soit que le fichier n'a qu'une seule colonne de données, soit le numéro de la colonne qui nous intéresse.
 		int i;
 		string name = "-1";
@@ -32,7 +36,6 @@
 		//Lecture de la ligne1 (Titre Fichier)
 		getline(input_file, line);
 		name = line;
-		
 
 		//Lecture de la ligne2 (Sujet Etude)
 		getline(input_file, line);
@@ -130,15 +133,12 @@
 			float valuecount = (float)itertmp;
 			const float DEBUT = valuecount;
 			float debut = valuecount;
-			float fin = valuecount+intervalle;
 			itertmp++;
 
 			//Insertion dans la liste finale
 			for(i = 0 ; !itertmp.end() ; i++){
 				float valuetmp = (float)itertmp;
-				cout << "Val: " << valuetmp << ", deb: " << debut << ", int: " << intervalle << endl;
-
-				if(valuetmp < debut+intervalle){
+				if(valuetmp < (debut+intervalle)){
 					count++;
 					itertmp++;
 				}
@@ -147,22 +147,23 @@
 						count++;
 						Data1D tmp = Data1D((debut + intervalle)/2, count);
 						liste.insere(tmp);
+						debut = debut + intervalle;
 						count = 0;
-						itertmp++;
-						
 					}
-					debut = debut + intervalle;
+					else{
+						Data1D tmp = Data1D((debut + intervalle)/2, count);
+						liste.insere(tmp);
+						debut = debut + intervalle;
+					}
 				}
-				
 			}
 			count++;
 			Data1D tmp2 = Data1D((debut+intervalle)/2, count);
 			liste.insere(tmp2);
 
-			listeTrieeTmp.Affiche();
-			liste.Affiche();
+			
 
-			this->setSource(new DataSourceSerieContinue(name, sujet, "Continue", DEBUT, intervalle, liste));
+			setSource(new DataSourceSerieContinue(name, sujet, "Continue", DEBUT, intervalle, liste));
 		}
 		else if (type == "d" || type == "D"){
 
@@ -189,7 +190,7 @@
 			Data1D tmp2 = Data1D(valuecount, count);
 			liste.insere(tmp2);
 
-			this->setSource(new DataSourceSerieDiscrete(name, sujet, "Discret", liste));
+			setSource(new DataSourceSerieDiscrete(name, sujet, "Discret", liste));
 		}
 		else{
 			throw "Erreur: Le type de colonne est inconnus";
@@ -200,12 +201,10 @@
 	}
 
 	Echantillon::Echantillon(DataSource* data){
-		Source = NULL;
 		setSource(data);
 	}
 
 	Echantillon::Echantillon(const Echantillon &e){ //Constructeur de copie
-		if(Source) delete Source;
 		setSource(e.getSource());
     }
 
@@ -220,7 +219,7 @@
     }
     
     void Echantillon::setSource( DataSource* data){
-		if(Source) delete Source;
+		Source = NULL;
 		Source = data;
     }
 

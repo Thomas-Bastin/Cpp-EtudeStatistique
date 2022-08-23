@@ -47,7 +47,7 @@ class EtudeStat1D {
 		EtudeStat1D( EtudeStat1D &e);
 		
 		//Deconstructeur	
-		~EtudeStat1D();
+	    ~EtudeStat1D();
 		
 		
 		//GETTER SETTER

@@ -1,22 +1,24 @@
 #include "main.h"
 using namespace std;
 
-EtudeStat1D* Etude;
+int main(int argc, char*argv[]){
 
-int main(){
-	int returnCode;
-	while(true){
-		returnCode = menu();
-		if(returnCode == 0)	break;
-	}
+	if (argc == 3) ExecEtudeStat1D(argv[1], argv[2]);
 	
-	system("clear");
-	cout << endl << endl<< endl;
-	if(returnCode == 0)		
-		cout << "Fin du programme, Bonne journée :-)" << endl;
-	else	
-		cout << "Fin du Programme: ExitCode(" << returnCode<<")" << endl;
-	cout << endl << endl;
+		int returnCode;
+		while(true){
+			returnCode = menu();
+			if(returnCode == 0)	break;
+		}
+		
+		system("clear");
+		cout << endl << endl<< endl;
+		if(returnCode == 0)		
+			cout << "Fin du programme, Bonne journée :-)" << endl;
+		else	
+			cout << "Fin du Programme: ExitCode(" << returnCode<<")" << endl;
+		cout << endl << endl;
+	
 }
 
 
@@ -29,8 +31,7 @@ int menu(void){
 	cout << "| ---------------------                                                 |" << endl;	
 	cout << "|                                                                       |" << endl;
 	cout << "| 1. Lire un nouveau Fichier                                            |" << endl;
-	cout << "| 2. Afficher l'étude Statistique                                       |" << endl;
-	cout << "| 3. Autres                                                             |" << endl;
+	cout << "| 2. Autres                                                             |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "| 0. Quitter                                                            |" << endl;
@@ -44,14 +45,10 @@ int menu(void){
 				system("clear");
 				MenuStat1D();
 				returnCode = 1;
-				EnterIsPressed();
 			break;
 		
 		case '2':
 				system("clear");
-				if(Etude){
-					Etude->AfficheRapport();
-				}
 				returnCode = 2;
 				EnterIsPressed();
 			break;
@@ -203,6 +200,7 @@ void MenuStat1D(){
 void ExecEtudeStat1D(string filename, string col){
 	int c;
 	int i = 0;
+	EtudeStat1D* Etude;
 
 	do{
 		if(i>0){
@@ -221,11 +219,12 @@ void ExecEtudeStat1D(string filename, string col){
 	}while(c < 1);
 	
 	try{
-		Etude = new EtudeStat1D(filename,c);	
+		Etude =  new EtudeStat1D(filename,c);	
 		Etude->AfficheRapport();
 	}
 	catch(char const* e){
 		cout << e << endl;
 	}
-	
+
+	EnterIsPressed();
 }

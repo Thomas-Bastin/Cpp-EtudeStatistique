@@ -2,19 +2,31 @@
 
 ///////////////////////// Constructeurs: ///////////////////////////////
 	DataSourceSerieDiscrete::DataSourceSerieDiscrete() : DataSource(){
+        #ifdef DEBUG
+		cout << "DataSourceDiscrete: Passage Constructeurs par Defaut" << endl;
+		#endif
         setListe(Liste<Data1D>());
 	}
 
 
     DataSourceSerieDiscrete::DataSourceSerieDiscrete(const Liste<Data1D> &l) : DataSource(){
+        #ifdef DEBUG
+		cout << "DataSourceDiscrete: Passage Constructeurs par Init Liste" << endl;
+		#endif
         setListe(l);
     }
 
     DataSourceSerieDiscrete::DataSourceSerieDiscrete(string nom, string sujet, string type) : DataSource( nom, sujet, type){
+        #ifdef DEBUG
+		cout << "DataSourceDiscrete: Passage Constructeurs par Init Liste2" << endl;
+		#endif
         setListe(Liste<Data1D>());
 	}
 
 	DataSourceSerieDiscrete::DataSourceSerieDiscrete(string nom, string sujet, string type, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
+        #ifdef DEBUG
+		cout << "DataSourceDiscrete: Passage Constructeurs par Init Complet" << endl;
+		#endif
         setListe(l);
 	}
 
@@ -126,4 +138,78 @@
 
         //Discrete Paire
         return (valMillieux1 + valMillieux2) / 2;
+    }
+
+    float DataSourceSerieDiscrete::getMax() const{
+        Liste<Data1D> tmp;
+        tmp = getListe();
+        Iterateur<Data1D> iter(tmp);
+        
+        int i;
+        double maxvalue;
+        int EffectifTotal = getEffectifTotal();
+
+        
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D data = (Data1D)iter;
+
+            if(i==0){
+                maxvalue = data.getValeur();
+            }
+            else{
+                if(maxvalue < data.getValeur()){
+                    maxvalue = data.getValeur();
+                }
+            }
+        }
+
+        return(maxvalue);   
+    }
+
+	float DataSourceSerieDiscrete::getMin() const{
+        Liste<Data1D> tmp;
+        tmp = getListe();
+        Iterateur<Data1D> iter(tmp);
+        
+        int i;
+        double minvalue;
+        int EffectifTotal = getEffectifTotal();
+
+        
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D data = (Data1D)iter;
+
+            if(i==0){
+                minvalue = data.getValeur();
+            }
+            else{
+                if(minvalue > data.getValeur()){
+                    minvalue = data.getValeur();
+                }
+            }
+        }
+
+        return(minvalue);
+    }
+
+    float DataSourceSerieDiscrete::getMoyenne() const{
+        Liste<Data1D> tmp;
+        tmp = getListe();
+        Iterateur<Data1D> iter(tmp);
+        int i;
+        
+        double Somme = 0;
+        int EffectifTotal = getEffectifTotal();
+
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D data = (Data1D)iter;
+
+            if(i == 0){
+                Somme = data.getValeur()*data.getEffectif();
+            }
+            else{
+                Somme += data.getValeur()*data.getEffectif();
+            }
+        }
+        return((Somme/EffectifTotal));
     }

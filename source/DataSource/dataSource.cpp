@@ -6,9 +6,17 @@
         Sujet = "-1";
         Type = -1;
         EffTotal = -1;
+
+        #ifdef DEBUG
+		cout << "DataSource: Passage Constructeurs par Defaut" << endl;
+		#endif
 	}
 
 	DataSource::DataSource(string nom, string sujet, string type){
+
+        #ifdef DEBUG
+		cout << "DataSource: Passage Constructeurs par Init" << endl;
+		#endif
         setNom(nom);
         setSujet(sujet);
         setType(type);
@@ -16,6 +24,10 @@
 	}
 
 	DataSource::DataSource(const DataSource &e){ //Constructeur de copie
+        #ifdef DEBUG
+		cout << "DataSource: Passage Constructeurs Copie" << endl;
+		#endif
+
 		setNom(e.getNom());
         setSujet(e.getSujet());
         setType(e.getType());

@@ -4,6 +4,10 @@
 
     //Constructeur Default
     EtudeStat1D::EtudeStat1D(){
+        #ifdef DEBUG
+		cout << "EtudeStat1D: Passage Constructeurs par Defaut" << endl;
+		#endif
+
         Echant = NULL;
         Moyenne = 0;
         EcartType = 0;
@@ -14,6 +18,9 @@
     EtudeStat1D::EtudeStat1D(Echantillon* echant){
         Echant = NULL;
         setEchantillon(echant);
+        #ifdef DEBUG
+		cout << "EtudeStat1D: Passage Constructeurs par Init filePath" << endl;
+		#endif
 
         //Calcul Moyenne:
         if(calculMoyenne() == -1){
@@ -57,6 +64,9 @@
 
 	//Constructeur Init
     EtudeStat1D::EtudeStat1D(string filePath, int colNumber){
+        #ifdef DEBUG
+		cout << "EtudeStat1D: Passage Constructeurs par Init filePath" << endl;
+		#endif
         //Creation de l'échantillon
         try{
             setEchantillon(new Echantillon(filePath, colNumber));
@@ -66,6 +76,22 @@
         }
         
         
+        
+
+        //Calcul ValMax:
+        if(calculValMax() == -1){
+            cout << "Erreur, pas d'échantillon"<<endl;
+        }
+
+        //Calcul ValMin:
+        if(calculValMin() == -1){
+            cout << "Erreur, pas d'échantillon"<<endl;
+        }
+
+        //Calcul Etendue:
+        if(calculEtendue() == -1){
+            cout << "Erreur, pas d'échantillon"<<endl;
+        }
 
         //Calcul Moyenne:
         if(calculMoyenne() == -1){
@@ -88,21 +114,6 @@
 
         //Calcul Coef:
         if(calculCoefVar() == -1){
-            cout << "Erreur, pas d'échantillon"<<endl;
-        }
-
-        //Calcul ValMax:
-        if(calculValMax() == -1){
-            cout << "Erreur, pas d'échantillon"<<endl;
-        }
-
-        //Calcul ValMin:
-        if(calculValMin() == -1){
-            cout << "Erreur, pas d'échantillon"<<endl;
-        }
-
-        //Calcul Etendue:
-        if(calculEtendue() == -1){
             cout << "Erreur, pas d'échantillon"<<endl;
         }
     }
@@ -162,7 +173,6 @@
         return Echant;
     }
     void EtudeStat1D::setEchantillon(Echantillon *echant){
-        if(Echant) delete Echant;
         Echant = echant;
     }
 
@@ -234,25 +244,7 @@
 int EtudeStat1D::calculMoyenne(){
     if(getEchantillon()){
 
-        Liste<Data1D> tmp;
-        tmp = getEchantillon()->getSource()->getListe();
-        Iterateur<Data1D> iter(tmp);
-        int i;
-        
-        double Somme = 0;
-        int EffectifTotal = getEchantillon()->getSource()->getEffectifTotal();
-
-        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
-            Data1D data = (Data1D)iter;
-
-            if(i == 0){
-                Somme = data.getValeur()*data.getEffectif();
-            }
-            else{
-                Somme += data.getValeur()*data.getEffectif();
-            }
-        }
-        setMoyenne(float (Somme/EffectifTotal));
+        setMoyenne(getEchantillon()->getSource()->getMoyenne());
         return 0;
     }
     return -1;
@@ -372,29 +364,7 @@ int EtudeStat1D::calculEtendue(){
 
 int EtudeStat1D::calculValMax(){
     if(getEchantillon()){
-        Liste<Data1D> tmp;
-        tmp = getEchantillon()->getSource()->getListe();
-        Iterateur<Data1D> iter(tmp);
-        
-        int i;
-        double maxvalue;
-        int EffectifTotal = getEchantillon()->getSource()->getEffectifTotal();
-
-        
-        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
-            Data1D data = (Data1D)iter;
-
-            if(i==0){
-                maxvalue = data.getValeur();
-            }
-            else{
-                if(maxvalue < data.getValeur()){
-                    maxvalue = data.getValeur();
-                }
-            }
-        }
-
-        setValMax(maxvalue);        
+        setValMax(getEchantillon()->getSource()->getMax());     
         return 0;
     }
     return -1;
@@ -402,29 +372,7 @@ int EtudeStat1D::calculValMax(){
 
 int EtudeStat1D::calculValMin(){
     if(getEchantillon()){
-        Liste<Data1D> tmp;
-        tmp = getEchantillon()->getSource()->getListe();
-        Iterateur<Data1D> iter(tmp);
-        
-        int i;
-        double minvalue;
-        int EffectifTotal = getEchantillon()->getSource()->getEffectifTotal();
-
-        
-        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
-            Data1D data = (Data1D)iter;
-
-            if(i==0){
-                minvalue = data.getValeur();
-            }
-            else{
-                if(minvalue > data.getValeur()){
-                    minvalue = data.getValeur();
-                }
-            }
-        }
-
-        setValMin(minvalue);        
+        setValMin(getEchantillon()->getSource()->getMin());        
         return 0;
     }
     return -1;
