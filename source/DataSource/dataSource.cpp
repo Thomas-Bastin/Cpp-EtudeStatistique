@@ -8,7 +8,7 @@
         EffTotal = -1;
 	}
 
-	DataSource::DataSource(string nom, string sujet, int type){
+	DataSource::DataSource(string nom, string sujet, string type){
         setNom(nom);
         setSujet(sujet);
         setType(type);
@@ -50,11 +50,11 @@
         EffTotal = efftotal;
     }
 
-    int DataSource::getType() const{
+    string DataSource::getType() const{
         return Type;
     }
 
-	void DataSource::setType(const int type){
+	void DataSource::setType(const string type){
         Type = type;
     }
 

@@ -5,7 +5,6 @@
         setListe(Liste<Data1D>());
         setDebut(-1);
         setIntervalle(-1);
-        setEffectifTotal(0);
 	}
 
 
@@ -13,15 +12,18 @@
         setListe(l);
         setDebut(-1);
         setIntervalle(-1);
-        setEffectifTotal(l.getNombreElements());
     }
 
+    DataSourceSerieContinue::DataSourceSerieContinue(string nom, string sujet, string type, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
+        setListe(l);
+        setDebut(-1);
+        setIntervalle(-1);
+	}
 
-	DataSourceSerieContinue::DataSourceSerieContinue(string nom, string sujet, int type, float debut, float intervalle, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
+	DataSourceSerieContinue::DataSourceSerieContinue(string nom, string sujet, string type, float debut, float intervalle, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
         setListe(l);
         setDebut(debut);
         setIntervalle(intervalle);
-        setEffectifTotal(l.getNombreElements());
 	}
 
 
@@ -29,7 +31,6 @@
 		setListe(e.getListe());
         setDebut(e.getDebut());
         setIntervalle(e.getIntervalle());
-        setEffectifTotal(e.getListe().getNombreElements());
     }
 
 
@@ -43,6 +44,7 @@
 
     void DataSourceSerieContinue::setListe(const Liste<Data1D> &l){
         L = l;
+        refreshEffectifTotal();
     }
 
     float DataSourceSerieContinue::getDebut() const{
@@ -74,6 +76,42 @@
 
 	//<<
     std::ostream& operator<<(std::ostream& s, const DataSourceSerieContinue& t1){
-     	s << "( Nom: " << t1.getNom() << ", Sujet: " << t1.getSujet() << ", Type: " << t1.getType() << ", Effectif Total: " << t1.getEffectifTotal() << " )";
+     	s << "( Nom: " << t1.getNom() << ", Sujet: " << t1.getSujet() << ", Type: " << t1.getType() << ", Effectif Total: " << t1.getEffectifTotal() << ", Debut:" << t1.getDebut() << ", Intervalle" << t1.getIntervalle() << " )";
      	return (s);
+    }
+
+///////////////////////// My Methods: ///////////////////////////////
+    void DataSourceSerieContinue::refreshEffectifTotal(){
+        if(!getListe().estVide()){
+
+            Iterateur<Data1D> iter(L);
+            
+            int i;
+            int EffectifTotal = 0;
+            for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+                Data1D data = (Data1D)iter;
+
+                if(i == 0){
+                    EffectifTotal = data.getEffectif();
+                }
+                else{
+                    EffectifTotal += data.getEffectif();
+                }
+            }
+            setEffectifTotal(float (EffectifTotal));
+        }
+    }
+
+    void DataSourceSerieContinue::AfficheData(){
+        Iterateur<Data1D> iter(L);
+        int i;
+
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D tmp = (Data1D)iter;
+            std::cout << "|   [" << i << "] = " << tmp << "\t\t\t        " << endl;
+        }
+    }
+
+    float DataSourceSerieContinue::getMedianne() const{
+        throw "TODO (float DataSourceSerieContinue::getMedianne() const;)";
     }

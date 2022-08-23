@@ -53,20 +53,10 @@
 	
 	//Création des Templates.
 	template class Iterateur<int>;
+	template class Iterateur<float>;
 
 	#include "../Data/data1D.h"
 	template class Iterateur<Data1D>;
 
 	#include "../Data/data2D.h"
 	template class Iterateur<Data2D>;
-
-	#include "../DataSource/dataSource.h"
-	template class Iterateur<DataSource>;
-
-	#include "../Echantillon/echantillon.h"
-	template class Iterateur<Echantillon>;
-
-	#include "../DataSource/DataSourceSerieDiscrete/dataSourceSerieDiscrete.h"
-	template class Iterateur<DataSourceSerieDiscrete>;
-	
-	

@@ -1,10 +1,16 @@
 #ifndef DATASOURCESERIEDISCRETE_H
 #define DATASOURCESERIEDISCRETE_H
 
+#include "../../debug.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
+
 #include "../../Liste_Template/Liste.h"
+#include "../../Liste_Template/Iterateur.h"
+#include "../../Liste_Template/ListeTriee.h"
+
 #include "../dataSource.h"
 #include "../../Data/data1D.h"
 
@@ -20,7 +26,8 @@ class DataSourceSerieDiscrete : public DataSource {
 		
 		//Constructeur Init
         DataSourceSerieDiscrete(const Liste<Data1D> &L);
-		DataSourceSerieDiscrete(string Nom, string Sujet, int Type,const Liste<Data1D> &L);
+		DataSourceSerieDiscrete(string nom, string sujet, string type);
+		DataSourceSerieDiscrete(string nom, string sujet, string type,const Liste<Data1D> &L);
 		
 		//Constructeur Copie
 		DataSourceSerieDiscrete(const DataSourceSerieDiscrete &e);
@@ -40,5 +47,7 @@ class DataSourceSerieDiscrete : public DataSource {
 
         //MY Methods:
         void refreshEffectifTotal();
+		void AfficheData();
+		float getMedianne() const;
 };
 #endif

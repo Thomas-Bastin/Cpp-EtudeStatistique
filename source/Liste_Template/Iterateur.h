@@ -19,7 +19,7 @@ private:
 	Cellule<T> *pCur;
 
 public:
-	Iterateur(Liste<T> &l);	//Constructeur d'init
+	Iterateur( Liste<T> &l);	//Constructeur d'init
 
 	~Iterateur();	//Deconstruceur
 	

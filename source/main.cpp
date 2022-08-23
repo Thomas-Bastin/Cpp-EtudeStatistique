@@ -1,6 +1,8 @@
 #include "main.h"
 using namespace std;
 
+EtudeStat1D* Etude;
+
 int main(){
 	int returnCode;
 	while(true){
@@ -40,14 +42,16 @@ int menu(void){
 	switch(choix[0]){
 		case '1':
 				system("clear");
-				cout << "1 has been catch" << endl;
+				MenuStat1D();
 				returnCode = 1;
 				EnterIsPressed();
 			break;
 		
 		case '2':
 				system("clear");
-				cout << "2 has been catch" << endl;
+				if(Etude){
+					Etude->AfficheRapport();
+				}
 				returnCode = 2;
 				EnterIsPressed();
 			break;
@@ -86,6 +90,8 @@ int menuAutre(void){
 	cout << "| 4. Test DataSource                                                    |" << endl;
 	cout << "| 5. Test Echantillon                                                   |" << endl;
 	cout << "| 6. Test DataSourceSerieDiscrete                                       |" << endl;
+	cout << "| 7. Test DataSourceSerieContinue                                       |" << endl;
+	cout << "| 8. Test EtudeStat1D                                                   |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "| 0. Quitter                                                            |" << endl;
@@ -137,6 +143,20 @@ int menuAutre(void){
 				EnterIsPressed();
 			break;
 
+		case '7':
+				system("clear");
+				returnCode = 7;
+				TestDataSourceSerieContinue();
+				EnterIsPressed();
+			break;
+
+		case '8':
+				system("clear");
+				returnCode = 8;
+				TestEtudeStat1D();
+				EnterIsPressed();
+			break;
+
 		case '0':
 				returnCode = 0;
 			break;
@@ -151,4 +171,61 @@ void EnterIsPressed(){
 	     std::cout<< endl << "----Appuiez sur [Enter] pour continuer----" << std::endl;
 	     std::getline(std::cin, myString);
 	} while (myString.length() != 0);
+}
+
+
+void MenuStat1D(){
+	string filename;
+	string col;
+	int c;
+
+	cout << "|***********************************************************************|" << endl;
+	cout << "| "<< "\033[0;31m"<<"EtudeStat1D:"<<"\033[0m"<<"                                                          |" << endl;
+	cout << "| ---------------------                                                 |" << endl;
+	cout << "|***********************************************************************|" << endl;
+	
+	cout << "  " << "\033[0;36m" << "Entrez le chemin + le nom du fichier:" << "\033[0m" << "" << endl;
+	cout << "  "; cin >> filename; cin.get(); cout << endl;
+
+	cout << "|***********************************************************************|" << endl;
+	cout << "  " << "\033[0;36m" << "Entrez le numéro de la colonne a étudiée" << "\033[0m" << "" << endl;
+	cout << "  "; cin >> col; cin.get(); cout << endl;
+	
+	#ifdef DEBUG
+		cout << "|***********************************************************************|" << endl;
+		cout << "filename: "<< filename << ", colonne: " << c << endl;	
+		cout << "|***********************************************************************|" << endl;
+	#endif
+
+	ExecEtudeStat1D(filename, col);
+}
+
+void ExecEtudeStat1D(string filename, string col){
+	int c;
+	int i = 0;
+
+	do{
+		if(i>0){
+			cout << "  " << "\033[0;36m" << "Entré un nombre valide (entier)" << "\033[0m" << "" << endl;
+			cout << "  "; cin >> col; cin.get(); cout << endl;
+		}
+		
+		i++;
+
+		try{
+			c = stoi(col);
+		}
+		catch(...){
+			continue;
+		}
+	}while(c < 1);
+	
+	try{
+		Etude = new EtudeStat1D(filename,c);	
+		Etude->AfficheRapport();
+	}
+	catch(char const* e){
+		cout << e << endl;
+	}
+	
 }

@@ -1,6 +1,8 @@
 #ifndef DATA2D_H
 #define DATA2D_H
 
+#include "../debug.h"
+
 #include <iostream>
 #include <fstream>
 using namespace std;

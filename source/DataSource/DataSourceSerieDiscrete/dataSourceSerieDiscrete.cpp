@@ -10,8 +10,11 @@
         setListe(l);
     }
 
+    DataSourceSerieDiscrete::DataSourceSerieDiscrete(string nom, string sujet, string type) : DataSource( nom, sujet, type){
+        setListe(Liste<Data1D>());
+	}
 
-	DataSourceSerieDiscrete::DataSourceSerieDiscrete(string nom, string sujet, int type, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
+	DataSourceSerieDiscrete::DataSourceSerieDiscrete(string nom, string sujet, string type, const Liste<Data1D> &l) : DataSource( nom, sujet, type){
         setListe(l);
 	}
 
@@ -52,5 +55,75 @@
 
 ///////////////////////// My Methods: ///////////////////////////////
     void DataSourceSerieDiscrete::refreshEffectifTotal(){
-        setEffectifTotal(getListe().getNombreElements());
+        if(!getListe().estVide()){
+
+            Iterateur<Data1D> iter(L);
+            
+            int i;
+            int EffectifTotal = 0;
+            for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+                Data1D data = (Data1D)iter;
+
+                if(i == 0){
+                    EffectifTotal = data.getEffectif();
+                }
+                else{
+                    EffectifTotal += data.getEffectif();
+                }
+            }
+            setEffectifTotal(float (EffectifTotal));
+        }
+    }
+
+    void DataSourceSerieDiscrete::AfficheData(){
+        Iterateur<Data1D> iter(L);
+        int i;
+
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D tmp = (Data1D)iter;
+            std::cout << "|   [" << i << "] = " << tmp << "\t\t\t        " << endl;
+        }
+    }
+
+    float DataSourceSerieDiscrete::getMedianne() const{
+        Liste<Data1D> tmp = getListe();
+        Iterateur<Data1D> iter(tmp);
+        int i;
+
+        int n = getListe().getNombreElements();
+        int iMillieux1 = -1, iMillieux2 = -1;
+        float valMillieux1, valMillieux2;
+
+        if(n%2 != 0){
+            iMillieux1 = (n)/2;
+        }
+        else{
+            iMillieux1 = (n-1)/2;
+            iMillieux2 =  n/2;
+        }
+
+        #ifdef DEBUG
+            cout << "iMillieux1: " << iMillieux1 << ", iMillieux2: " << iMillieux2 << endl;
+            cout << "ValMillieux1: " << valMillieux1 << ", ValMillieux2: " << valMillieux2 << endl;
+        #endif
+
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D tmp = (Data1D)iter;
+            if(i == iMillieux1){
+                valMillieux1 = tmp.getValeur();
+            }
+
+            if(i == iMillieux2){
+                valMillieux2 = tmp.getValeur();
+            }
+        }
+
+
+        if(iMillieux2 == -1){
+            //Discrete Impaire
+            return valMillieux1;
+        }
+
+        //Discrete Paire
+        return (valMillieux1 + valMillieux2) / 2;
     }

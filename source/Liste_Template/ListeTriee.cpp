@@ -91,6 +91,7 @@
 	#include "../Data/data1D.h"
 	#include "../Data/data2D.h"
 	template class ListeTriee<int>;
+	template class ListeTriee<float>;
 	template class ListeTriee<Data1D>;
 	template class ListeTriee<Data2D>;
 	
