@@ -28,7 +28,7 @@ class EtudeStat1D {
         float Moyenne;
         float EcartType;
         float Mediane;
-        Liste<float> Mode;
+        string Mode;
         float CoefVar;
 
         float Etendue;
@@ -75,8 +75,8 @@ class EtudeStat1D {
         float getValMin() const;
         void setValMin(const float valmin);
 
-        Liste<float> getMode() const;
-        void setMode(const Liste<float> &l);
+        string getMode() const;
+        void setMode(string l);
 
      	friend std::ostream& operator<<(std::ostream& s, const EtudeStat1D& t1);
 

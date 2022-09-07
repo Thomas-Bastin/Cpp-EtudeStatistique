@@ -22,6 +22,8 @@
 
 		ListeTriee<float> listeTrieeTmp;
 		Liste<Data1D> liste;
+
+		Iterateur<Data1D> iter(liste);
 		Iterateur<float> itertmp(listeTrieeTmp);
 
 		
@@ -74,7 +76,6 @@
 		}
 
 
-		
 		//Lecture du reste des lignes jusqu'à la fin du fichier (pour créer la liste):
 		string value;
 		while(getline(input_file, line)){
@@ -102,11 +103,11 @@
 			}
 		}
 
-		
-
 		if(type == "c" || type == "C"){
+
 			string col1;
 			float intervalle;
+
 			i = 0;
 			cout << "|***********************************************************************|" << endl;
 			cout << "  " << "\033[0;36m" << "Entré l'intervale de valeur:" << "\033[0m" << "" << endl;
@@ -127,43 +128,43 @@
 				}
 			}while(intervalle <= 0);
 
-
-			itertmp.reset();
-			int   count = 0;
-			float valuecount = (float)itertmp;
-			const float DEBUT = valuecount;
-			float debut = valuecount;
-			itertmp++;
-
-			//Insertion dans la liste finale
-			for(i = 0 ; !itertmp.end() ; i++){
-				float valuetmp = (float)itertmp;
-				if(valuetmp < (debut+intervalle)){
-					count++;
-					itertmp++;
-				}
-				else{
-					if(count != 0){
-						count++;
-						Data1D tmp = Data1D((debut + intervalle)/2, count);
-						liste.insere(tmp);
-						debut = debut + intervalle;
-						count = 0;
-					}
-					else{
-						Data1D tmp = Data1D((debut + intervalle)/2, count);
-						liste.insere(tmp);
-						debut = debut + intervalle;
-					}
-				}
-			}
-			count++;
-			Data1D tmp2 = Data1D((debut+intervalle)/2, count);
-			liste.insere(tmp2);
-
 			
+			//Rework: LA liste commence au début, ensuite on ajoute tout ce qui est plus petit que l'interval, 
+			//Creation de la liste Vide:
+			float maxval;
+			itertmp.reset();
+			for(int i ; !itertmp.end() ; i++, itertmp++){
+				maxval = (float) itertmp;
+			}
+			
+			itertmp.reset();
+			const float DEBUT = (float)itertmp;
 
-			setSource(new DataSourceSerieContinue(name, sujet, "Continue", DEBUT, intervalle, liste));
+			for(float i = DEBUT ; i < maxval ; i+= intervalle ){
+				Data1D tmp = Data1D(i,0);
+				liste.insere(tmp);
+			}
+
+			//Insertion des éléments dans la liste (au bon endroit)
+			itertmp.reset();
+			while(!itertmp.end()){
+				float valuetmp = (float)itertmp;
+
+				iter.reset();
+				while(!iter.end()){
+
+					Data1D* tmp = iter.getRef();
+					if( valuetmp >= tmp->getValeur() && valuetmp < (tmp->getValeur()+ intervalle) ){
+						int count = tmp->getEffectif() + 1;
+						tmp->setEffectif(count);
+						break;
+					}
+					iter++;
+				}
+				itertmp++;
+			}
+
+			setSource(new DataSourceSerieContinue(name, sujet, "Continue", DEBUT, intervalle, maxval, liste));
 		}
 		else if (type == "d" || type == "D"){
 
@@ -189,7 +190,7 @@
 			}
 			Data1D tmp2 = Data1D(valuecount, count);
 			liste.insere(tmp2);
-
+			
 			setSource(new DataSourceSerieDiscrete(name, sujet, "Discret", liste));
 		}
 		else{

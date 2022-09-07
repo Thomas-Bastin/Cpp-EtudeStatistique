@@ -58,9 +58,11 @@ class DataSource {
 		//My Methods:
 		virtual void AfficheData() = 0;
 		virtual Liste<Data1D> getListe() const = 0;
-		virtual float getMedianne() const = 0;
+		virtual float getMedianne() = 0;
 		virtual float getMax() const = 0;
 		virtual float getMin() const = 0;
 		virtual float getMoyenne() const = 0;
+		virtual string getMode() = 0;
+		virtual float getEcartType() = 0;
 };
 #endif

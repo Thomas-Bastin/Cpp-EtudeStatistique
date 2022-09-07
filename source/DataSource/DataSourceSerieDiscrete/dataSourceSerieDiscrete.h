@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <math.h>
 
 #include "../../Liste_Template/Liste.h"
 #include "../../Liste_Template/Iterateur.h"
@@ -48,9 +50,11 @@ class DataSourceSerieDiscrete : public DataSource {
         //MY Methods:
         void refreshEffectifTotal();
 		void AfficheData();
-		float getMedianne() const;
+		float getMedianne();
 		float getMax() const;
 		float getMin() const;
 		float getMoyenne() const;
+		float getEcartType();
+		string getMode();
 };
 #endif

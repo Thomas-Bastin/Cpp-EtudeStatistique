@@ -97,7 +97,58 @@
         }
     }
 
-    float DataSourceSerieDiscrete::getMedianne() const{
+    string DataSourceSerieDiscrete::getMode(){
+        
+        Liste<float> listemodes = Liste<float>();
+        Liste<Data1D> listedata = getListe();
+
+        Iterateur<Data1D> iterdata(listedata);
+
+        int i;
+        float nMax;
+        for(i=0, iterdata.reset() ; !iterdata.end() ; iterdata++, i++){
+            Data1D tmp = (Data1D)iterdata;
+            if(i==0){
+                nMax = tmp.getEffectif();
+            }
+            else{
+                if(nMax < tmp.getEffectif()){
+                    nMax = tmp.getEffectif();
+                }
+            }
+        }
+
+        for(i=0, iterdata.reset() ; !iterdata.end() ; iterdata++, i++){
+            Data1D tmp = (Data1D)iterdata;
+            if(nMax == tmp.getEffectif()){
+                listemodes.insere(tmp.getValeur());
+            }
+        }
+
+        //Créer une string sur base de la listemodes
+        string s = "";
+        std::ostringstream buffer;
+
+        Iterateur<float> iter(listemodes);
+        for(iter.reset(), i = 0 ; !iter.end() ; iter++, i++){
+            float tmp = (float)iter;
+
+            if(i == listemodes.getNombreElements()-1){
+                
+                buffer << tmp;
+            }
+            else{
+                buffer << tmp << " : ";
+            }
+        }
+
+        s = buffer.str();
+
+        return s;
+    }
+
+
+    float DataSourceSerieDiscrete::getMedianne(){
         Liste<Data1D> tmp = getListe();
         Iterateur<Data1D> iter(tmp);
         int i;
@@ -138,6 +189,35 @@
 
         //Discrete Paire
         return (valMillieux1 + valMillieux2) / 2;
+    }
+
+    float DataSourceSerieDiscrete::getEcartType()
+    {
+        float ecartType;
+        Liste<Data1D> tmp;
+        tmp = getListe();
+        Iterateur<Data1D> iter(tmp);
+        int i;
+        
+        double Somme = 0;
+        double PowSomme = 0;
+        int EffectifTotal = getEffectifTotal();
+
+        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
+            Data1D data = (Data1D)iter;
+
+            if(i == 0){
+                PowSomme = pow(data.getValeur(),2)*data.getEffectif();
+                Somme = (data.getValeur()*data.getEffectif());
+            }
+            else{
+                PowSomme += pow(data.getValeur(),2)*data.getEffectif();
+                Somme += (data.getValeur()*data.getEffectif());
+            }
+        }
+
+        ecartType = sqrt( (PowSomme - ( ( (pow(Somme,2)) / EffectifTotal) )) / EffectifTotal); // Voir Page 6 2ème Formule
+        return ecartType;
     }
 
     float DataSourceSerieDiscrete::getMax() const{

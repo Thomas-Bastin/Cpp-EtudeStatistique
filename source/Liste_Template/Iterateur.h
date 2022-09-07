@@ -36,6 +36,8 @@ public:
 
 	T& operator&(void);
 
+	T* getRef();
+
 };
 #endif
 

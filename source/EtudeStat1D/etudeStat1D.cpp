@@ -12,7 +12,7 @@
         Moyenne = 0;
         EcartType = 0;
         Mediane = 0;
-        Mode = Liste<float>();
+        Mode = "";
     }
 	
     EtudeStat1D::EtudeStat1D(Echantillon* echant){
@@ -131,11 +131,6 @@
             cout << "Erreur, pas d'échantillon"<<endl;
         }
 
-        //Calcul Mediane
-        if(calculMediane() == -1){
-            cout << "Erreur, pas d'échantillon"<<endl;
-        }
-
         //Calcul Modes:
         if(calculMode() == -1){
             cout << "Erreur, pas d'échantillon"<<endl;
@@ -153,6 +148,11 @@
 
         //Calcul ValMin:
         if(calculValMin() == -1){
+            cout << "Erreur, pas d'échantillon"<<endl;
+        }
+
+        //Calcul Mediane
+        if(calculMediane() == -1){
             cout << "Erreur, pas d'échantillon"<<endl;
         }
 
@@ -225,10 +225,10 @@
         ValMin = valmin;
     }
 
-    Liste<float> EtudeStat1D::getMode() const{
+    string EtudeStat1D::getMode() const{
         return Mode;
     }
-    void EtudeStat1D::setMode(const Liste<float>& l){
+    void EtudeStat1D::setMode(string l){
         Mode = l;
     }
 
@@ -252,30 +252,7 @@ int EtudeStat1D::calculMoyenne(){
 
 int EtudeStat1D::calculEcartType(){
     if(getEchantillon()){
-
-        Liste<Data1D> tmp;
-        tmp = getEchantillon()->getSource()->getListe();
-        Iterateur<Data1D> iter(tmp);
-        int i;
-        
-        double Somme = 0;
-        double PowSomme = 0;
-        int EffectifTotal = getEchantillon()->getSource()->getEffectifTotal();
-
-        for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
-            Data1D data = (Data1D)iter;
-
-            if(i == 0){
-                PowSomme = pow(data.getValeur(),2)*data.getEffectif();
-                Somme = (data.getValeur()*data.getEffectif());
-            }
-            else{
-                PowSomme += pow(data.getValeur(),2)*data.getEffectif();
-                Somme += (data.getValeur()*data.getEffectif());
-            }
-        }
-
-        setEcartType(   sqrt( (PowSomme - ( ( (pow(Somme,2)) / EffectifTotal) )) / EffectifTotal)   ); // Voir Page 6 2ème Formule
+        setEcartType(getEchantillon()->getSource()->getEcartType());
         return 0;
 
         #ifdef DEBUG
@@ -312,42 +289,12 @@ int EtudeStat1D::calculMediane(){
 }
 
 int EtudeStat1D::calculMode(){
-    if(getEchantillon()){
-        Liste<float> listemodes = Liste<float>();
-        Liste<Data1D> listedata = getEchantillon()->getSource()->getListe();
-
-        Iterateur<Data1D> iterdata(listedata);
-
-        int i;
-        float nMax;
-        for(i=0, iterdata.reset() ; !iterdata.end() ; iterdata++, i++){
-            Data1D tmp = (Data1D)iterdata;
-            if(i=0){
-                nMax = tmp.getEffectif();
-            }
-            else{
-                if(nMax < tmp.getEffectif()){
-                    nMax = tmp.getEffectif();
-                }
-            }
-        }
-
-        for(i=0, iterdata.reset() ; !iterdata.end() ; iterdata++, i++){
-            Data1D tmp = (Data1D)iterdata;
-            if(nMax == tmp.getEffectif()){
-                listemodes.insere(tmp.getValeur());
-            }
-        }
-
-        setMode(listemodes);
-        return 0;
-    }
-    return -1;
+    setMode(getEchantillon()->getSource()->getMode());
+    return 0;
 }
 
 int EtudeStat1D::calculCoefVar(){
     if(getEchantillon()){
-
         setCoefVar(getEcartType() / getMoyenne()*100);
         return 0;
     }
@@ -439,22 +386,7 @@ void EtudeStat1D::AfficheRapport(){
     cout << "| EcartType: "<< getEcartType() <<"                                     " << endl;
     cout << "|                                                                       " << endl;
     cout << "| Médianne: "<< getMediane() <<"                                    " << endl;
-    cout << "| Mode:\t";
-
-
-    Liste<float> listetmp = Liste<float>(getMode());
-    Iterateur<float> iter(listetmp);
-    int i;
-    for(iter.reset(), i = 0 ; !iter.end() ; iter++, i++){
-        float tmp = (float)iter;
-
-        if(i == listetmp.getNombreElements()-1){
-            cout << tmp;
-        }
-        else{
-            cout << tmp <<" : ";
-        }
-    }
+    cout << "| Mode:\t" << getMode()<<endl;
 
 	cout << endl;
 	cout << "| Coefficient de Variation : " << getCoefVar() <<"%\t\t                      " << endl;

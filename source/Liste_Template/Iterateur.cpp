@@ -50,6 +50,12 @@
 		return pCur->valeur;
 	}
 
+	//GetRef (permet de récupérer l'adresse de la valeur contenue dans la liste)
+	template <class T>
+	T* Iterateur<T>::getRef(){ // retourne True si l'itérateur est situé au bout de la liste. soit pCur == NULL;
+		return &pCur->valeur;
+	}
+
 	
 	//Création des Templates.
 	template class Iterateur<int>;
