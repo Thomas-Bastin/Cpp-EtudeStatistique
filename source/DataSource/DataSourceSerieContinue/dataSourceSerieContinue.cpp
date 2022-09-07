@@ -223,7 +223,9 @@
         Data1D elemA;
         Data1D elemB;
 
-        cout << "EffTot " << getEffectifTotal()<<endl;
+        #ifdef DEBUG
+        cout << "EffTotdiv2 " << efftotdiv2 <<endl;
+        #endif
 
         if(getEffectifTotal()%2 == 0){
             //Pair
@@ -232,20 +234,20 @@
             float med1;
             float med2;
 
-            iter.reset();
-            Data1D tmp = (Data1D) iter;
+            //Median ==(EffTotDiv).Val
+            Data1D tmp;
             int effcum = 0;
             for(iter.reset() ; !iter.end() ; iter++){
                 elemA = tmp;
                 tmp = (Data1D) iter;
                 effcum+=tmp.getEffectif();
                 
-                if(effcum >= efftotdiv2){
+                if(effcum > efftotdiv2){
                     elemB = tmp;
                     break;
                 }
             }
-            med1 = calculMed(elemB.getValeur(), (effcum - elemB.getEffectif()), (elemB.getValeur()+getIntervalle()),effcum, (efftotdiv2));
+            med1 = calculMed(elemB.getValeur(), (effcum - elemB.getEffectif()), (elemB.getValeur()+getIntervalle()),effcum, (efftotdiv2-1));
 
 
             effcum = 0;
@@ -256,14 +258,20 @@
                 tmp = (Data1D) iter;
                 effcum+=tmp.getEffectif();
                 
-                if(effcum >= (efftotdiv2+1)){
+                if(effcum > (efftotdiv2+1)){
                     elemB = tmp;
                     break;
                 }
             }
-            med2 = calculMed(elemB.getValeur(), (effcum - elemB.getEffectif()), (elemB.getValeur()+getIntervalle()),effcum, (efftotdiv2+1.0));
+            med2 = calculMed(elemB.getValeur(), (effcum - elemB.getEffectif()), (elemB.getValeur()+getIntervalle()),effcum, (efftotdiv2));
 
-            mediane = (med1 + med2) / 2;
+            #ifdef DEBUG
+            cout << med1 << ", med2: " << med2 << endl;
+            cout << "somme: " << (med1 + med2) << endl;
+            cout << "median: " << (med1 + med2)/2 << endl;
+            #endif
+
+            mediane = (med1 + med2)/2;
         }
         else{
             //Impair
@@ -275,7 +283,7 @@
                 tmp = (Data1D) iter;
                 effcum+=tmp.getEffectif();
                 
-                if(effcum >= efftotdiv2+1){
+                if(effcum > (efftotdiv2+1)){
                     elemB = tmp;
                     break;
                 }
@@ -287,7 +295,9 @@
     }
 
     float DataSourceSerieContinue::calculMed(double begInter, double begEffCum, double endInter, double endEffCum, double efftotdiv2){
-        cout << begInter << ", " << begEffCum << ", " << endInter << ", " <<endEffCum << ", " << efftotdiv2 << endl;
+        #ifdef DEBUG
+        cout <<"CalculMedParam: " begInter << ", " << begEffCum << ", " << endInter << ", " <<endEffCum << ", " << efftotdiv2 << endl;
+        #endif
         //Début Interval
         double mediane;
 
@@ -295,10 +305,11 @@
         //https://homeomath2.imingo.net/mediane.htm
         double repartitionuniforme = (double)(endInter - begInter) / (double)(endEffCum - begEffCum);
         double posInter = efftotdiv2 - begEffCum;
-        cout << "repartitionunif: " << repartitionuniforme << ", positionInter: " << posInter << endl;
-        mediane = begInter + (repartitionuniforme * posInter);
 
-        return(float) mediane;
+        #ifdef DEBUG
+        cout << "repartitionunif: " << repartitionuniforme << ", positionInter: " << posInter << endl;
+        #endif
+        return(float) (begInter + (repartitionuniforme * posInter));
     }
 
     float DataSourceSerieContinue::getMax() const{

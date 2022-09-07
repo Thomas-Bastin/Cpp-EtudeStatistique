@@ -326,7 +326,7 @@ int EtudeStat1D::calculValMin(){
 }
 
 string EtudeStat1D::controleQualitee(){
-    if(getEchantillon()){
+    if(getEchantillon() && getEcartType()){
 
         Liste<Data1D> tmp;
         tmp = getEchantillon()->getSource()->getListe();
@@ -383,10 +383,9 @@ void EtudeStat1D::AfficheRapport(){
 	cout << "| Effectif Total: "<< getEchantillon()->getSource()->getEffectifTotal() <<"" << endl;
     cout << "|                                                                       " << endl;
 	cout << "| Moyenne: "<< getMoyenne() <<"                                         " << endl;
-    cout << "| EcartType: "<< getEcartType() <<"                                     " << endl;
-    cout << "|                                                                       " << endl;
     cout << "| Médianne: "<< getMediane() <<"                                    " << endl;
     cout << "| Mode:\t" << getMode()<<endl;
+    cout << "| EcartType: "<< getEcartType() <<"                                     " << endl;
 
 	cout << endl;
 	cout << "| Coefficient de Variation : " << getCoefVar() <<"%\t\t                      " << endl;
