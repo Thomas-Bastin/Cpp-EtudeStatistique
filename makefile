@@ -1,6 +1,6 @@
 .SILENT:
 DEBUG = -D DEBUG
-cc = -g
+cc = -lstdc++fs -g -std=c++17
 PROGRAMS = EtudeStat
 bin = obj
 Lib = source

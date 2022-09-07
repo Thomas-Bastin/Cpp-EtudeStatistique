@@ -31,7 +31,10 @@ int menu(void){
 	cout << "| ---------------------                                                 |" << endl;	
 	cout << "|                                                                       |" << endl;
 	cout << "| 1. Lire un nouveau Fichier                                            |" << endl;
-	cout << "| 2. Autres                                                             |" << endl;
+	cout << "| 2. Selectionnez un Fichier                                            |" << endl;
+	#ifdef DEBUG
+	cout << "| 3. TestTools                                                             |" << endl;
+	#endif
 	cout << "|                                                                       |" << endl;
 	cout << "|                                                                       |" << endl;
 	cout << "| 0. Quitter                                                            |" << endl;
@@ -49,19 +52,21 @@ int menu(void){
 		
 		case '2':
 				system("clear");
+				ReadRepertory();
 				returnCode = 2;
-				EnterIsPressed();
 			break;
-		
+
+		#ifdef DEBUG		
 		case '3':
 				while(true){
-					returnCode = menuAutre();
+					returnCode = menuTest();
 					if(returnCode == 0){
 						returnCode = 3;
 						break;
 					}
 				}
 			break;
+		#endif
 
 		case '0':
 				returnCode = 0;
@@ -73,12 +78,12 @@ int menu(void){
 
 
 
-int menuAutre(void){
+int menuTest(void){
 	int returnCode;
 	string choix;
 	system("clear");
 	cout << "|***********************************************************************|" << endl;
-	cout << "| "<< "\033[0;31m"<<"Autres Options:"<<"\033[0m"<<"                                                       |" << endl;
+	cout << "| "<< "\033[0;31m"<<"TestsList:"<<"\033[0m"<<"                                                       |" << endl;
 	cout << "| ---------------------                                                 |" << endl;	
 	cout << "|                                                                       |" << endl;
 	cout << "| 1. Test Liste                                                         |" << endl;
@@ -195,6 +200,79 @@ void MenuStat1D(){
 	#endif
 
 	ExecEtudeStat1D(filename, col);
+}
+
+int ReadRepertory(void){
+	string filename;
+	string col;
+	string choix;
+	string list;
+
+	int c;
+	int returnCode;
+	int n = 1;
+
+	DIR *dpdf;
+	std::string PathList[500];
+
+    struct dirent *epdf;
+    dpdf = opendir("./Fichier");
+    if (dpdf != NULL){
+		while (epdf = readdir(dpdf)){
+			if(strcmp(epdf->d_name, ".") != 0 && strcmp(epdf->d_name, "") != 0 && strcmp(epdf->d_name, "..") != 0 && strcmp(epdf->d_name, ".keepfile") != 0){
+				PathList[n] = epdf->d_name;
+				n++;
+			}
+		}
+    }
+    closedir(dpdf);
+
+
+    system("clear");
+	cout << "|***********************************************************************|" << endl;
+	cout << "| "<< "\033[0;31m"<<"Choissez un Fichier:"<<"\033[0m"<<"                                                  |" << endl;
+	cout << "| ---------------------                                                 |" << endl;	
+	cout << "|                                                                       |" << endl;
+
+	for(int i = 1 ; i<n ; i++){
+		cout << "| "<< i <<". "<< PathList[i] <<"                                                         " << endl;
+	}
+
+	cout << "|                                                                       |" << endl;
+	cout << "|                                                                       |" << endl;
+	cout << "| 0. Quitter                                                            |" << endl;
+	cout << "|                                                                       |" << endl;
+	cout << "|***********************************************************************|" << endl;
+	cout << "| " << "\033[0;36m" << "Entrez votre choix:" << "\033[0m" << "                                                   |" << endl;
+	cout << "| "; cin >> choix; cin.get(); cout << endl;
+
+	int i = 0;
+	do{
+		if(i>0){
+			cout << "  " << "\033[0;36m" << "Entré un nombre valide (entier)" << "\033[0m" << "" << endl;
+			cout << "  "; cin >> col; cin.get(); cout << endl;
+		}
+		
+		i++;
+
+		try{
+			c = stoi(choix);
+		}
+		catch(...){
+			continue;
+		}
+	}while(c < 0);
+
+	filename = "./Fichier/"+ PathList[c];
+	
+	system("clear");
+	cout << "|***********************************************************************|" << endl;
+	cout << "  " << "\033[0;36m" << "Entrez le numéro de la colonne a étudiée" << "\033[0m" << "" << endl;
+	cout << "  "; cin >> col; cin.get(); cout << endl;
+
+	ExecEtudeStat1D(filename, col);
+
+	return(returnCode);
 }
 
 void ExecEtudeStat1D(string filename, string col){

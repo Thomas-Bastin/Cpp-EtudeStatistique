@@ -19,12 +19,18 @@
     #include <string>
     #include <exception>
     #include <stdexcept>
+    #include <filesystem>
+    #include <bits/stdc++.h>
+    #include <dirent.h>
+    #include <list>
+    #include <algorithm>
 
     int menu(void);
-    int menuAutre(void);
+    int ReadRepertory(void);
+    int menuTest(void);
     void MenuStat1D();
     void ExecEtudeStat1D(string filename, string col);
-
+    
     
     void EnterIsPressed();
 

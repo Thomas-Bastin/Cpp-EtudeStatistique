@@ -93,7 +93,7 @@
 
         for(i = 0, iter.reset() ; !iter.end() ; iter++, i++){
             Data1D tmp = (Data1D)iter;
-            std::cout << "|   [" << i << "] = " << tmp << "\t\t\t        " << endl;
+            std::cout << "|  "<< tmp << "\t\t\t        " << endl;
         }
     }
 
